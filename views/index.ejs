@@ -1,5 +1,20 @@
-<html>
-  <body>
-    <%= message %>
-  </body>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title><%= title %></title>
+</head>
+<body>
+  <h1>Messages</h1>
+  <ul>
+    <% messages.forEach((message, index) => { %>
+      <li>
+        <strong><%= message.user %>:</strong> <%= message.text %>
+        <em>(<%= message.added.toLocaleString() %>)</em>
+        <a href="/form/message/<%= index %>">Open</a>
+      </li>
+    <% }) %>
+  </ul>
+  <a href="/form">Add a New Message</a>
+</body>
 </html>

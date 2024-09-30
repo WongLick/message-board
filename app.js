@@ -1,15 +1,27 @@
 const express = require("express");
 const app = express();
 const path = require("node:path");
+const formRouter = require("./form");
 
-// app.get("/", (req, res) => res.send("Hello, world!"));
-app.get("/", (req, res) => {
-    res.render("index", { message: "EJS rocks!" });
-  });
-  
+const messages = [];
 
-const PORT = 3000;
-app.listen(PORT, () => console.log(`My first Express app - listening on port ${PORT}!`));
-
+app.use(express.urlencoded({ extended: true }));
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
+
+app.use((req, res, next) => {
+  req.messages = messages;
+  next();
+});
+
+app.get("/", (req, res) => {
+  const title = "First message wow";
+  res.render("index", { messages, title });
+});
+
+app.use("/form", formRouter);
+
+const PORT = 3000;
+app.listen(PORT, () =>
+  console.log(`My first Express app - listening on port ${PORT}!`)
+);
